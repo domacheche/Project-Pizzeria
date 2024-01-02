@@ -11,6 +11,7 @@ utils.createDOMFromHTML = function(htmlString) {
 utils.createPropIfUndefined = function(obj, key, value = []){
   if(!obj.hasOwnProperty(key)){
     obj[key] = value;
+    
   }
 };
 
