@@ -152,27 +152,40 @@ const select = {
 
     processOrder() {
       const thisProduct = this;
-      
-      // covert form to object structure e.g. { sauce: ['tomato'], toppings: ['olives', 'redPeppers']}
-  const formData = utils.serializeFormToObject(thisProduct.form);
-  console.log('formData', formData);
-
-  // set price to default price
-  let price = thisProduct.data.price;
-
-  // for every category (param)...
-  for(let paramId in thisProduct.data.params) {
-    // determine param value, e.g. paramId = 'toppings', param = { label: 'Toppings', type: 'checkboxes'... }
-    const param = thisProduct.data.params[paramId];
-    console.log(paramId, param);
-
-    // for every option in this category
-    for(let optionId in param.options) {
-      // determine option value, e.g. optionId = 'olives', option = { label: 'Olives', price: 2, default: true }
-      const option = param.options[optionId];
-      console.log(optionId, option);
-    }
-  }
+    
+      // Convert form to object structure e.g. { sauce: ['tomato'], toppings: ['olives', 'redPeppers']}
+      const formData = utils.serializeFormToObject(thisProduct.form);
+      console.log('formData', formData);
+    
+      // Set price to default price
+      let price = thisProduct.data.price;
+    
+      // For every category (param)...
+      for (let paramId in thisProduct.data.params) {
+        // Determine param value, e.g. paramId = 'toppings', param = { label: 'Toppings', type: 'checkboxes'... }
+        const param = thisProduct.data.params[paramId];
+        console.log(paramId, param);
+    
+        // For every option in this category
+        for (let optionId in param.options) {
+          // Determine option value, e.g. optionId = 'olives', option = { label: 'Olives', price: 2, default: true }
+          const option = param.options[optionId];
+          console.log(optionId, option);
+    
+          // Check if the option is selected in the form data
+          const isOptionSelected = formData[paramId] && formData[paramId].includes(optionId);
+    
+          // Check if the selected option is not the default option
+          const isDefaultOption = option.default === true;
+    
+          // Modify price based on the selection
+          if (isOptionSelected && !isDefaultOption) {
+            price += option.price;
+          } else if (!isOptionSelected && isDefaultOption) {
+            price -= option.price;
+          }
+        }
+      }
 
   // update calculated price in the HTML
   thisProduct.priceElem.innerHTML = price;
