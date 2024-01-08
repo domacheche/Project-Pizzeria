@@ -6,3 +6,10 @@
 @import 'partials/cart';
 
 @import 'partials/product';
+
+.product__images .active {
+    display: block;
+  }
+  .product__images img {
+    display: none;
+  }

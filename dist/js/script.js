@@ -98,6 +98,7 @@ const select = {
       thisProduct.formInputs = thisProduct.form.querySelectorAll(select.all.formInputs);
       thisProduct.cartButton = thisProduct.element.querySelector(select.menuProduct.cartButton);
       thisProduct.priceElem = thisProduct.element.querySelector(select.menuProduct.priceElem);
+      thisProduct.imageWrapper = thisProduct.element.querySelector(select.menuProduct.imageWrapper);
     }
 
     initAccordion(){
@@ -150,35 +151,35 @@ const select = {
 
     }
 
+    
     processOrder() {
       const thisProduct = this;
-    
-      // Convert form to object structure e.g. { sauce: ['tomato'], toppings: ['olives', 'redPeppers']}
       const formData = utils.serializeFormToObject(thisProduct.form);
-      console.log('formData', formData);
-    
-      // Set price to default price
       let price = thisProduct.data.price;
     
-      // For every category (param)...
+      // Znajdź wszystkie obrazy wewnątrz elementu imageWrapper
+      const images = thisProduct.imageWrapper.querySelectorAll('img');
+    
       for (let paramId in thisProduct.data.params) {
-        // Determine param value, e.g. paramId = 'toppings', param = { label: 'Toppings', type: 'checkboxes'... }
         const param = thisProduct.data.params[paramId];
-        console.log(paramId, param);
     
-        // For every option in this category
         for (let optionId in param.options) {
-          // Determine option value, e.g. optionId = 'olives', option = { label: 'Olives', price: 2, default: true }
           const option = param.options[optionId];
-          console.log(optionId, option);
-    
-          // Check if the option is selected in the form data
           const isOptionSelected = formData[paramId] && formData[paramId].includes(optionId);
     
-          // Check if the selected option is not the default option
-          const isDefaultOption = option.default === true;
+          // Znajdź obrazek odpowiadający danej opcji
+          const optionImage = thisProduct.imageWrapper.querySelector(`.${paramId}-${optionId}`);
     
-          // Modify price based on the selection
+          if (optionImage) {
+            if (isOptionSelected) {
+              optionImage.classList.add(classNames.menuProduct.imageVisible);
+            } else {
+              optionImage.classList.remove(classNames.menuProduct.imageVisible);
+            }
+          }
+    
+          // Oblicz cenę na podstawie wybranych opcji
+          const isDefaultOption = option.default === true;
           if (isOptionSelected && !isDefaultOption) {
             price += option.price;
           } else if (!isOptionSelected && isDefaultOption) {
@@ -186,13 +187,14 @@ const select = {
           }
         }
       }
-
-  // update calculated price in the HTML
-  thisProduct.priceElem.innerHTML = price;
-
+    
+      // Aktualizuj wyświetlaną cenę
+      thisProduct.priceElem.innerHTML = price;
     }
+    
   }
-
+    
+    
   
 
   const app = {
