@@ -9,7 +9,7 @@
     },
     containerOf: {
       menu: '#product-list',
-      cart: '#cart',
+      cart: '#toggle-cart',
     },
     all: {
       menuProducts: '#product-list > .product',
@@ -316,6 +316,7 @@
       const thisApp = this;
 
       const cartElem = document.querySelector(select.containerOf.cart);
+      console.log(cartElem);
       thisApp.cart = new Cart(cartElem);
     },
 
