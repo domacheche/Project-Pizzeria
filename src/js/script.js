@@ -9,7 +9,7 @@
     },
     containerOf: {
       menu: '#product-list',
-      cart: '#toggle-cart',
+      cart: '#cart',
     },
     all: {
       menuProducts: '#product-list > .product',
@@ -33,7 +33,7 @@
     },
 
     cart: {
-      toggleTrigger: '#toggle-cart', 
+      toggleTrigger: '.cart__summary', 
     },
 
     
@@ -41,9 +41,12 @@
 
   const classNames = {
     menuProduct: {
-      wrapperActive: 'active',
-      imageVisible: 'active',
-    },
+       wrapperActive: 'active',
+       imageVisible: 'active',
+     },
+     cart: {
+       wrapperActive: 'active',
+     },
   };
 
   const settings = {
