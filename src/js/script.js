@@ -26,18 +26,27 @@
     },
     widgets: {
       amount: {
-        input: 'input[name="amount"]',
+        input: 'input[class="amount"]',
         linkDecrease: 'a[href="#less"]',
         linkIncrease: 'a[href="#more"]',
       },
     },
+
+    cart: {
+      toggleTrigger: '.cart__summary', 
+    },
+
+    
   };
 
   const classNames = {
     menuProduct: {
-      wrapperActive: 'active',
-      imageVisible: 'active',
-    },
+       wrapperActive: 'active',
+       imageVisible: 'active',
+     },
+     cart: {
+       wrapperActive: 'active',
+     },
   };
 
   const settings = {
@@ -52,11 +61,11 @@
     menuProduct: Handlebars.compile(document.querySelector(select.templateOf.menuProduct).innerHTML),
   };
 
-  class AmountWidget {
+  class amountWidget {
     constructor(element) {
       const thisWidget = this;
 
-      console.log('AmountWidget:', thisWidget);
+      console.log('amountWidget:', thisWidget);
       console.log('constructor arguments:', element);
 
       thisWidget.getElements(element);
@@ -250,10 +259,42 @@
     initAmountWidget() {
       const thisProduct = this;
 
-      thisProduct.amountWidget = new AmountWidget(thisProduct.amountWidgetElem);
+      thisProduct.amountWidget = new amountWidget(thisProduct.amountWidgetElem);
 
       thisProduct.amountWidgetElem.addEventListener('updated', function() {
         thisProduct.processOrder();
+      });
+    }
+  }
+
+  class Cart{
+    constructor(element) {
+      const thisCart = this;
+
+      thisCart.products = [];
+
+      thisCart.getElements(element);
+      thisCart.initActions();
+
+      console.log('new Cart', thisCart);
+
+    }
+
+    getElements(element){
+      const thisCart = this;
+
+      thisCart.dom = {};
+    
+      thisCart.dom.wrapper = element;
+      thisCart.dom.toggleTrigger = element.querySelector(select.cart.toggleTrigger);
+    }
+
+    initActions(){
+      const thisCart = this;
+  
+      thisCart.dom.toggleTrigger.addEventListener('click', function(event){
+        event.preventDefault();
+        thisCart.dom.wrapper.classList.toggle(classNames.cart.wrapperActive);
       });
     }
   }
@@ -274,6 +315,14 @@
       thisApp.data = dataSource;
     },
 
+    initCart: function(){
+      const thisApp = this;
+
+      const cartElem = document.querySelector(select.containerOf.cart);
+      console.log(cartElem);
+      thisApp.cart = new Cart(cartElem);
+    },
+
     init: function () {
       const thisApp = this;
       console.log('*** App starting ***');
@@ -284,6 +333,7 @@
 
       thisApp.initData();
       thisApp.initMenu();
+      thisApp.initCart();
     },
   };
 
