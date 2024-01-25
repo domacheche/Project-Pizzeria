@@ -35,8 +35,8 @@
     cartProduct: {
       amountWidget: '.widget-amount',
       price: '.cart__product-price',
-      edit: '.cart__product-edit',
-      remove: '.cart__product-remove',
+      edit: '[href="#edit"]',
+      remove: '[href="#remove"]',
     },
 
     cart: {
