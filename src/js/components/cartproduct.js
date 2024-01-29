@@ -1,3 +1,6 @@
+import {select} from './settings.js';
+import amountWidget from '../components/amountwidget';
+
 class CartProduct {
     constructor(menuProduct, element) {
       const thisCartProduct = this;
