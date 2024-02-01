@@ -43,9 +43,10 @@
       productList: '.cart__order-summary',
       toggleTrigger: '.summary',
       totalNumber: `.cart__total-number`,
-      totalPrice: '.cart__total-price .cart__order-total',
+      totalPrice: '.cart__total-price strong, .cart__order-total .cart__order-price-sum strong',
       subtotalPrice: '.cart__order-subtotal .cart__order-price-sum',
       deliveryFee: '.cart__order-delivery .cart__order-price-sum',
+      form: '.cart__order',
 
     },
 
@@ -387,7 +388,7 @@
 
       thisCart.dom.deliveryFee = element.querySelector('.cart__order-delivery .cart__order-price-sum');
       thisCart.dom.subtotalPrice = element.querySelector('.cart__order-subtotal .cart__order-price-sum');
-      thisCart.dom.totalPrice = element.querySelectorAll('.cart__total-price .cart__order-total');
+      thisCart.dom.totalPrice = element.querySelectorAll(select.cart.totalPrice);
       thisCart.dom.totalNumber = element.querySelector('.cart__total-number');
       thisCart.dom.form = element.querySelector(select.cart.form);
     }
